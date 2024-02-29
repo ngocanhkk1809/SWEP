@@ -11,8 +11,10 @@ from copy import deepcopy
 import json_lines
 import numpy as np
 from tqdm import tqdm
-from transformers.tokenization_bert import BasicTokenizer, whitespace_tokenize
+from transformers import BasicTokenizer
+from nltk.tokenize import WhitespaceTokenizer
 
+whitespace_tokenize = WhitespaceTokenizer()
 
 class SquadExample(object):
     """
@@ -304,7 +306,7 @@ def read_mrqa_examples(input_file, is_training, debug=False):
                 actual_text = " ".join(
                     doc_tokens[start_position:(end_position + 1)])
                 cleaned_answer_text = " ".join(
-                    whitespace_tokenize(orig_answer_text))
+                    whitespace_tokenize.tokenize(orig_answer_text))
                 if actual_text.find(cleaned_answer_text) == -1:
                     continue
                 
@@ -384,7 +386,7 @@ def read_squad_examples(input_file, is_training, version_2_with_negative=False,
                         actual_text = " ".join(
                             doc_tokens[start_position:(end_position + 1)])
                         cleaned_answer_text = " ".join(
-                            whitespace_tokenize(orig_answer_text))
+                            whitespace_tokenize.tokenize(orig_answer_text))
                         if actual_text.find(cleaned_answer_text) == -1:
                             continue
                     else:
